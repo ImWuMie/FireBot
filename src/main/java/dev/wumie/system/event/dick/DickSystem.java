@@ -35,28 +35,7 @@ public class DickSystem extends MsgEvent {
         String user = exec.user_id;
         String msg = exec.message;
         if (msg.length() == 0) return;
-        if (msg.startsWith(PREFIX)) {
-            String cmd = msg.substring(PREFIX.length());
-            String[] args = cmd.split(" ");
-            if (args.length == 0) return;
-
-            String commandName = args[0];
-            for (DickCommand command : commands) {
-                boolean isCommand = commandName.equalsIgnoreCase(command.name);
-                if (isCommand) {
-                    NiuZiInfo info = NiuZiManager.INSTANCE.get(user);
-                    if (info == null && !commandName.equals("领养牛子")) {
-                        send(exec, "没有牛子你用什么用滚");
-                        return;
-                    }
-
-                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    command.system = this;
-                    command.message = exec;
-                    command.run(newArgs, exec, info, this, userInfo);
-                }
-            }
-        } else if (msg.startsWith("牛子系统")) {
+        if (msg.startsWith("牛子系统")) {
             String[] args = msg.split(" ");
             MessageBuilder builder = new MessageBuilder();
             if (args.length == 2) {
@@ -81,6 +60,30 @@ public class DickSystem extends MsgEvent {
                 }
 
                 send(exec, builder.getString());
+            }
+            return;
+        }
+
+        if (msg.startsWith(PREFIX)) {
+            String cmd = msg.substring(PREFIX.length());
+            String[] args = cmd.split(" ");
+            if (args.length == 0) return;
+
+            String commandName = args[0];
+            for (DickCommand command : commands) {
+                boolean isCommand = commandName.equalsIgnoreCase(command.name);
+                if (isCommand) {
+                    NiuZiInfo info = NiuZiManager.INSTANCE.get(user);
+                    if (info == null && !commandName.equals("领养牛子")) {
+                        send(exec, "没有牛子你用什么用滚");
+                        return;
+                    }
+
+                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    command.system = this;
+                    command.message = exec;
+                    command.run(newArgs, exec, info, this, userInfo);
+                }
             }
         }
     }
