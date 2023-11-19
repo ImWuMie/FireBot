@@ -6,6 +6,7 @@ import dev.wumie.language.Language;
 import dev.wumie.system.Configs;
 import dev.wumie.system.MessageHandler;
 import dev.wumie.system.event.dick.NiuZiList;
+import dev.wumie.system.user.UserManager;
 import dev.wumie.task.TaskManager;
 import dev.wumie.utils.GsonUtils;
 import dev.wumie.websocket.WebServer;
@@ -30,6 +31,7 @@ public class FireQQ {
     public static final File CONFIGS_JSON = new File(FOLDER,"configs.json");
     public static Configs configs = Configs.newConfig();
     public static MessageHandler HANDLER;
+    public static final UserManager userManager = new UserManager();
     public static final Gson gson = GsonUtils.newBuilder().create();
 
     private static I18n i18nLanguage;
