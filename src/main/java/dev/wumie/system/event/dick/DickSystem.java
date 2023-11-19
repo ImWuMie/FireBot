@@ -1,0 +1,65 @@
+package dev.wumie.system.event.dick;
+
+import dev.wumie.messages.QMessage;
+import dev.wumie.system.MessageBuilder;
+import dev.wumie.system.event.MsgEvent;
+import dev.wumie.system.event.dick.impl.*;
+import dev.wumie.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class DickSystem extends MsgEvent {
+    private final List<DickCommand> commands = new ArrayList<>();
+    private final String PREFIX = "";
+
+    public DickSystem() {
+        super("dick_system");
+        commands.add(new RequestCommand());
+        commands.add(new PKCommand());
+        commands.add(new StatusCommand());
+        commands.add(new GetCommand());
+        commands.add(new SignCommand());
+        commands.add(new NameCommand());
+    }
+
+    @Override
+    public void run(String message, QMessage exec) {
+        String user = exec.user_id;
+        String msg = exec.message;
+        if (msg.length() == 0) return;
+        if (msg.startsWith(PREFIX)) {
+            String cmd = msg.substring(PREFIX.length());
+            String[] args = cmd.split(" ");
+            if (args.length == 0) return;
+
+            String commandName = args[0];
+            for (DickCommand command : commands) {
+                boolean isCommand = commandName.equalsIgnoreCase(command.name);
+                if (isCommand) {
+                    NiuZiInfo info = NiuZiManager.INSTANCE.get(user);
+                    if (info == null && !commandName.equals("领养牛子")) {
+                        send(exec, "没有牛子你用什么用滚");
+                        return;
+                    }
+
+                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    command.run(newArgs, exec, info,this);
+                }
+            }
+        }
+    }
+
+    public void send(QMessage exec, String msg,Object... args) {
+        msg = StringUtils.getReplaced(msg,args);
+        MessageBuilder builder = new MessageBuilder();
+        builder.append("--------牛子系统--------").append("\n");
+        builder.append(msg);
+        exec.send(builder.getNo());
+    }
+
+    public void success(QMessage exec) {
+        this.send(exec,"行了行了行了");
+    }
+}
