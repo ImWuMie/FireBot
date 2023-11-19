@@ -1,9 +1,12 @@
 package dev.wumie.system.event.dick;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NiuZiList {
+    @SerializedName("dicks")
     public final List<NiuZiInfo> dicks = new ArrayList<>();
 
     public void add(NiuZiInfo info) {
@@ -36,5 +39,9 @@ public class NiuZiList {
 
     public int size() {
         return dicks.size();
+    }
+
+    public void clear() {
+        this.dicks.clear();
     }
 }

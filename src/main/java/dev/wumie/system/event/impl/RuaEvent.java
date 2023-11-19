@@ -3,6 +3,7 @@ package dev.wumie.system.event.impl;
 import com.google.gson.annotations.SerializedName;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.MsgEvent;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.GsonUtils;
 import dev.wumie.utils.Http;
 
@@ -12,7 +13,7 @@ public class RuaEvent extends MsgEvent {
     }
 
     @Override
-    public void run(String message, QMessage exec) {
+    public void run(String message, QMessage exec, UserInfo userInfo) {
         try {
             if (message.startsWith("rua") || message.startsWith("摸摸")) {
                 String cq = message.substring(message.indexOf("["));

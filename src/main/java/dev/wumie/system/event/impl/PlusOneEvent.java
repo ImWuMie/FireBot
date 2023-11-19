@@ -2,6 +2,7 @@ package dev.wumie.system.event.impl;
 
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.MsgEvent;
+import dev.wumie.system.user.UserInfo;
 
 public class PlusOneEvent extends MsgEvent {
     public PlusOneEvent() {
@@ -12,7 +13,7 @@ public class PlusOneEvent extends MsgEvent {
     private int index = 0;
 
     @Override
-    public void run(String message, QMessage exec) {
+    public void run(String message, QMessage exec, UserInfo userInfo) {
         msgs[index] = message;
         index++;
         if (index >= msgs.length) {

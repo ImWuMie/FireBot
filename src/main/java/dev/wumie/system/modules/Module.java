@@ -1,9 +1,9 @@
 package dev.wumie.system.modules;
 
 import dev.wumie.FireQQ;
-import dev.wumie.messages.NoticeMessage;
 import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
+import dev.wumie.system.user.UserInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +27,8 @@ public abstract class Module {
         if (!FOLDER.exists()) FOLDER.mkdirs();
     }
 
-    public abstract void run(String[] args,QMessage message);
+    public abstract void run(String[] args, QMessage message, UserInfo userInfo);
+    public void onPrivate(String[] args, PrivateQMessage message, UserInfo userInfo) {}
 
     protected String argsToString(String[] args) {
         StringBuilder s = new StringBuilder();

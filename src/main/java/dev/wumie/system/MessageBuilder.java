@@ -57,7 +57,7 @@ public class MessageBuilder {
         return get("null");
     }
 
-    public String getNo() {
+    public String getString() {
         return currentBuilder.toString();
     }
 }

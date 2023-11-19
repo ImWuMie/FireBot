@@ -1,10 +1,9 @@
 package dev.wumie.system.event.impl;
 
-import dev.wumie.FireQQ;
-import dev.wumie.messages.Message;
 import dev.wumie.messages.NoticeMessage;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.MsgEvent;
+import dev.wumie.system.user.UserInfo;
 
 public class AntiRecallEvent extends MsgEvent {
     public AntiRecallEvent() {
@@ -16,7 +15,7 @@ public class AntiRecallEvent extends MsgEvent {
     private int offer = 1;
 
     @Override
-    public void run(String message, QMessage exec) {
+    public void run(String message, QMessage exec, UserInfo userInfo) {
        /* messages[currentMsgIndex] = exec;
         currentMsgIndex += offer;
         if (currentMsgIndex >= messages.length) {

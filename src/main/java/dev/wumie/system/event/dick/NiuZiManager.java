@@ -64,7 +64,10 @@ public class NiuZiManager {
             e.printStackTrace();
         }
         NiuZiList l = gson.fromJson(text, NiuZiList.class);
-        if (l != null) {
+        if (l == null) {
+            saveDicks();
+        } else {
+            this.list.clear();
             this.list.addAll(l);
         }
         LOG.info("Loaded {} dicks.", list.size());

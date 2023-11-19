@@ -70,6 +70,12 @@ public class MessageHandler {
         }
     }
 
+    public void reload() {
+    }
+
+    public void stop() {
+    }
+
     public void onMessage(String msg) {
         submitMessage(msg);
     }

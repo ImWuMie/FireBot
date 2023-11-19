@@ -1,6 +1,5 @@
 package dev.wumie.system.event.dick.impl;
 
-import dev.wumie.messages.Message;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.MessageBuilder;
 import dev.wumie.system.event.dick.DickCommand;
@@ -13,7 +12,7 @@ public class RequestCommand extends DickCommand {
         super("处理请求", "[搞对象/分手] [同意/不同意]","管理你的请求");
     }
 
-    private final String PREFIX = "--------对象系统--------";
+    private static final String PREFIX = "--------对象系统--------";
 
     @Override
     public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system) {
@@ -30,14 +29,14 @@ public class RequestCommand extends DickCommand {
                             MessageBuilder builder = new MessageBuilder();
                             builder.append(PREFIX).append("\n");
                             builder.at(info.love_request).append(" ").append("恭喜！！！！对方同意了你的请求");
-                            exec.send(builder.getNo());
+                            exec.send(builder.getString());
                             info.love(info.love_request);
                         }
                         case "不同意" -> {
                             MessageBuilder builder = new MessageBuilder();
                             builder.append(PREFIX).append("\n");
                             builder.at(info.love_request).append(" ").append("真遗憾……对方没有同意你的请求");
-                            exec.send(builder.getNo());
+                            exec.send(builder.getString());
                             info.love(info.qq_id);
                         }
                     }
@@ -50,14 +49,14 @@ public class RequestCommand extends DickCommand {
                             MessageBuilder builder = new MessageBuilder();
                             builder.append(PREFIX).append("\n");
                             builder.at(info.fenshou_data).append(" ").append("对方同意了你的分手请求……");
-                            exec.send(builder.getNo());
+                            exec.send(builder.getString());
                             info.leave();
                         }
                         case "不同意" -> {
                             MessageBuilder builder = new MessageBuilder();
                             builder.append(PREFIX).append("\n");
                             builder.at(info.fenshou_data).append(" ").append("对方没有同意你的请求");
-                            exec.send(builder.getNo());
+                            exec.send(builder.getString());
                             info.fenshou_data = info.qq_id;
                         }
                     }

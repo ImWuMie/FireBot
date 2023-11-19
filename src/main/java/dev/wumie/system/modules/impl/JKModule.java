@@ -4,6 +4,7 @@ import dev.wumie.FireQQ;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.actions.PicAction;
 import dev.wumie.system.modules.Module;
+import dev.wumie.system.user.UserInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,7 +22,7 @@ public class JKModule extends Module {
     private long lastClear = System.currentTimeMillis();
 
     @Override
-    public void run(String[] args, QMessage message) {
+    public void run(String[] args, QMessage message, UserInfo userInfo) {
         if (System.currentTimeMillis() - lastClear >= 60000L) {
             for (int j = 0; j < 30; j++) {
                 File file = new File(FOLDER, "jk" + j + ".png");

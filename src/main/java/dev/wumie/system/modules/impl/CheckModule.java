@@ -2,8 +2,8 @@ package dev.wumie.system.modules.impl;
 
 import dev.wumie.FireQQ;
 import dev.wumie.messages.QMessage;
-import dev.wumie.system.MessageBuilder;
 import dev.wumie.system.modules.Module;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.GsonUtils;
 import dev.wumie.utils.Infos.*;
 
@@ -18,7 +18,7 @@ public class CheckModule extends Module {
     }
 
     @Override
-    public void run(String[] args, QMessage message) {
+    public void run(String[] args, QMessage message, UserInfo userInfo) {
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("qq")) {
                 String qq = args[1];

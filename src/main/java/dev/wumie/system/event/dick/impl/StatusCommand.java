@@ -19,6 +19,6 @@ public class StatusCommand extends DickCommand {
         builder.append("名称：{}", info.name).append("\n");
         builder.append("性别：{}", info.sex).append("\n");
         builder.append("长度：{}厘米", info.niuZiCM);
-        system.send(exec, builder.getNo());
+        system.send(exec, builder.getString());
     }
 }

@@ -11,6 +11,10 @@ public abstract class DickCommand {
         this(name, "无","无");
     }
 
+    public DickCommand(String name,String desc) {
+        this(name,"无",desc);
+    }
+
     public DickCommand(String name, String usage,String desc) {
         this.name = name;
         this.usage = usage;

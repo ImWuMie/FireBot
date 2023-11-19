@@ -62,6 +62,7 @@ public class FireQQ {
             try {
                 synchronized (runnableSet) {
                     if (runnableSet.isEmpty()) {
+                        Thread.yield();
                         Thread.sleep(1000L);
                         continue;
                     }
@@ -72,5 +73,13 @@ public class FireQQ {
             } catch (Exception ignored) {
             }
         }
+    }
+
+    public void reload() {
+        HANDLER.reload();
+    }
+
+    public void stop() {
+        HANDLER.stop();
     }
 }

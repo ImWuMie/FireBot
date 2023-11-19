@@ -4,6 +4,7 @@ import dev.wumie.messages.QMessage;
 import dev.wumie.system.MessageBuilder;
 import dev.wumie.system.event.MsgEvent;
 import dev.wumie.system.event.dick.impl.*;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class DickSystem extends MsgEvent {
     }
 
     @Override
-    public void run(String message, QMessage exec) {
+    public void run(String message, QMessage exec, UserInfo userInfo) {
         String user = exec.user_id;
         String msg = exec.message;
         if (msg.length() == 0) return;
@@ -45,21 +46,47 @@ public class DickSystem extends MsgEvent {
                     }
 
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    command.run(newArgs, exec, info,this);
+                    command.run(newArgs, exec, info, this);
                 }
+            }
+        } else if (msg.startsWith("牛子系统")) {
+            String[] args = msg.split(" ");
+            MessageBuilder builder = new MessageBuilder();
+            if (args.length == 2) {
+                String commandName = args[1];
+                DickCommand command = null;
+                for (DickCommand c : commands) {
+                    if (c.name.equalsIgnoreCase(commandName)) {
+                        command = c;
+                        break;
+                    }
+                }
+
+                if (command == null) {
+                    send(exec, "没这个命令发什么发");
+                    return;
+                }
+
+                send(exec, "{}  {}\n{}", command.name, command.usage, command.desc);
+            } else if (args.length == 1) {
+                for (DickCommand command : commands) {
+                    builder.append(command.name).append("  ").append(command.usage).append("  ").append(command.desc).append("\n");
+                }
+
+                send(exec, builder.getString());
             }
         }
     }
 
-    public void send(QMessage exec, String msg,Object... args) {
-        msg = StringUtils.getReplaced(msg,args);
+    public void send(QMessage exec, String msg, Object... args) {
+        msg = StringUtils.getReplaced(msg, args);
         MessageBuilder builder = new MessageBuilder();
         builder.append("--------牛子系统--------").append("\n");
         builder.append(msg);
-        exec.send(builder.getNo());
+        exec.send(builder.getString());
     }
 
     public void success(QMessage exec) {
-        this.send(exec,"行了行了行了");
+        this.send(exec, "行了行了行了");
     }
 }

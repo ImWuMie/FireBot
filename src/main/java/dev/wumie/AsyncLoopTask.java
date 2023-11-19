@@ -16,6 +16,7 @@ public class AsyncLoopTask extends Thread {
             try {
                 synchronized (runnableSet) {
                     if (runnableSet.isEmpty()) {
+                        Thread.yield();
                         Thread.sleep(1000L);
                         continue;
                     }

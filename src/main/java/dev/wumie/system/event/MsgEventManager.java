@@ -1,14 +1,14 @@
 package dev.wumie.system.event;
 
 import dev.wumie.messages.NoticeMessage;
+import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.dick.DickSystem;
-import dev.wumie.system.event.impl.AntiRecallEvent;
 import dev.wumie.system.event.impl.ImageSaverEvent;
 import dev.wumie.system.event.impl.PlusOneEvent;
 import dev.wumie.system.event.impl.RuaEvent;
-import dev.wumie.system.modules.Module;
-import dev.wumie.system.modules.impl.TTSModule;
+import dev.wumie.system.user.UserInfo;
+import dev.wumie.system.user.UserManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,21 +41,34 @@ public class MsgEventManager {
         }
     }
 
-    public boolean handleMessage(QMessage groupMessage) {
-        String msg = groupMessage.message;
-        if (msg.length() == 0) return false;
+    public void handlePrivateMessage(PrivateQMessage privateMessage) {
+        String msg = privateMessage.message;
+        if (msg.length() == 0) return;
         if (msg.startsWith(PREFIX)) {
             String cmd = msg.substring(PREFIX.length());
             String[] args = cmd.split(" ");
 
-            if (args.length == 0) return false;
+            if (args.length == 0) return;
             for (MsgEvent event : events) {
-                event.run(cmd,groupMessage);
+                UserInfo info = UserManager.INSTANCE.get(privateMessage.user_id);
+                event.onPrivateMsg(cmd,privateMessage, info);
             }
-
-            return true;
         }
-        return true;
+    }
+
+    public void handleMessage(QMessage groupMessage) {
+        String msg = groupMessage.message;
+        if (msg.length() == 0) return;
+        if (msg.startsWith(PREFIX)) {
+            String cmd = msg.substring(PREFIX.length());
+            String[] args = cmd.split(" ");
+
+            if (args.length == 0) return;
+            for (MsgEvent event : events) {
+                UserInfo info = UserManager.INSTANCE.get(groupMessage.user_id);
+                event.run(cmd,groupMessage, info);
+            }
+        }
     }
 
     public void add(MsgEvent event) {

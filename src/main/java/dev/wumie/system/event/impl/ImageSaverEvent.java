@@ -3,6 +3,7 @@ package dev.wumie.system.event.impl;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.actions.PicAction;
 import dev.wumie.system.event.MsgEvent;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.RandomUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +25,7 @@ public class ImageSaverEvent extends MsgEvent {
     private long messageCooldown = 0;
 
     @Override
-    public void run(String message, QMessage exec) {
+    public void run(String message, QMessage exec, UserInfo userInfo) {
         // 随机图片发送
         int id = RandomUtils.nextInt(0, lastImages.length - 1);
         if (lastImages[id] != null) {

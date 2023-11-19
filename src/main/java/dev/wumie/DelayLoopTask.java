@@ -16,6 +16,7 @@ public class DelayLoopTask extends Thread {
             try {
                 synchronized (runnableSet) {
                     if (runnableSet.isEmpty()) {
+                        Thread.yield();
                         Thread.sleep(10000L);
                         continue;
                     }
