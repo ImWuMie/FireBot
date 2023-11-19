@@ -2,6 +2,7 @@ package dev.wumie.system.event.dick.impl;
 
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.MessageBuilder;
+import dev.wumie.system.actions.AtAction;
 import dev.wumie.system.event.dick.DickCommand;
 import dev.wumie.system.event.dick.DickSystem;
 import dev.wumie.system.event.dick.NiuZiInfo;
@@ -70,6 +71,8 @@ public class RequestCommand extends DickCommand {
                     NiuZiManager.INSTANCE.saveDicks();
                 }
             }
+        } else {
+            system.send(exec,new AtAction(exec.user_id).toAction() + this.name+"  "+this.usage);
         }
     }
 }

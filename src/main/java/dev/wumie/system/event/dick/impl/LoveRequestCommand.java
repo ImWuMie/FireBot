@@ -43,7 +43,7 @@ public class LoveRequestCommand extends DickCommand {
                     send(exec, "真可惜！人家有对象了");
                     return;
                 }
-                info.love_request = target;
+                targetInfo.love_request = target;
                 MessageBuilder builder = new MessageBuilder();
                 builder.append("{} 你好，{}想跟你搞对象", new AtAction(target).toAction(), new AtAction(exec.user_id).toAction()).append("\n");
                 builder.append("输入命令「处理请求 搞对象 同意/不同意」");
