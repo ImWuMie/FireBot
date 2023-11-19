@@ -11,4 +11,10 @@ public class Configs {
     public List<String> admins_list;
     @SerializedName("jb_delay")
     public long jb_delay;
+    @SerializedName("tts_delay")
+    public long tts_delay;
+    @SerializedName("check_delay")
+    public long check_delay;
+    @SerializedName("main_delay")
+    public long main_delay;
 }
