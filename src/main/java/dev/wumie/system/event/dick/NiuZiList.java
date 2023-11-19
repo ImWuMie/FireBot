@@ -17,8 +17,14 @@ public class NiuZiList {
         dicks.addAll(List.of(info));
     }
 
-    public void addAll(NiuZiList info) {
-        dicks.addAll(info.dicks);
+    public void addAll(NiuZiList i) {
+        i.dicks.forEach((info) -> {
+            if (info.fenshou_data == null) {info.fenshou_data = info.qq_id;}
+            if (info.love_request == null) {info.love_request = info.qq_id;}
+            if (info.lover == null) {info.lover = info.qq_id;}
+
+            this.dicks.add(info);
+        });
     }
 
     public NiuZiInfo get(String qq) {
