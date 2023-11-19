@@ -7,25 +7,19 @@ import dev.wumie.system.event.dick.NiuZiInfo;
 import dev.wumie.system.event.dick.NiuZiManager;
 import dev.wumie.system.user.UserInfo;
 
-public class NameCommand extends DickCommand {
-    public NameCommand() {
-        super("改牛子名","[要改的名字]","改你的牛子的名字，支持空格，最长12个字");
+public class ChangeSexCommand extends DickCommand {
+    public ChangeSexCommand() {
+        super("变女性", "转变为女性，扣除50厘米");
     }
 
     @Override
     public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
-        if (args.length == 0) {
-            system.send(exec,"你牛子要改的名字忘给了，我怎么改？");
+        if (info.sex.equals(NiuZiInfo.SexType.FEMALE.name)) {
+            system.send(exec, "你已经是女的了，怎么？");
             return;
         }
-
-        String name = args[0];
-        if (name.length() > 12) {
-            system.send(exec,"你牛子名字太长了，最多只支持12个字");
-            return;
-        }
-
-        info.name = name;
+        info.niuZiCM -= 50.0;
+        info.sex = NiuZiInfo.SexType.FEMALE.name;
         system.success(exec);
         NiuZiManager.INSTANCE.saveDicks();
     }

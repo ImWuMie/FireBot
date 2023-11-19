@@ -1,13 +1,15 @@
 package dev.wumie.system.event.dick.impl;
 
+import dev.wumie.FireQQ;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.actions.AtAction;
 import dev.wumie.system.event.dick.DickCommand;
 import dev.wumie.system.event.dick.DickSystem;
 import dev.wumie.system.event.dick.NiuZiInfo;
 import dev.wumie.system.event.dick.NiuZiManager;
+import dev.wumie.system.user.Rank;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.RandomUtils;
-import dev.wumie.utils.Times;
 
 public class PKCommand extends DickCommand {
     public PKCommand() {
@@ -15,7 +17,7 @@ public class PKCommand extends DickCommand {
     }
 
     @Override
-    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system) {
+    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
         if (args.length == 0) {
             system.send(exec, "不艾特人家我怎么知道你想跟谁比划？");
             return;
@@ -34,14 +36,16 @@ public class PKCommand extends DickCommand {
                 return;
             }
 
+            boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.configs.dick_admin_no_cooldown;
+
             double delta = RandomUtils.nextDouble(0, 10);
             String source = exec.user_id;
-            if (info.hongzhong_data - System.currentTimeMillis() >= 0L) {
+            if (!noCooldown && info.hongzhong_data - System.currentTimeMillis() >= 0L) {
                 system.send(exec, "你牛子红肿了，等 {}ms。", info.hongzhong_data - System.currentTimeMillis());
                 return;
             }
 
-            long pkCD = Times.HOUR;
+            long pkCD = FireQQ.configs.dick_pk_delay;
             info.hongzhong_data = System.currentTimeMillis() + pkCD;
             targetInfo.hongzhong_data = System.currentTimeMillis() + pkCD;
             int success = RandomUtils.nextInt(0, 101);

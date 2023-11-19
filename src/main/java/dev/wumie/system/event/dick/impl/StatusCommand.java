@@ -6,6 +6,7 @@ import dev.wumie.system.actions.AtAction;
 import dev.wumie.system.event.dick.DickCommand;
 import dev.wumie.system.event.dick.DickSystem;
 import dev.wumie.system.event.dick.NiuZiInfo;
+import dev.wumie.system.user.UserInfo;
 
 public class StatusCommand extends DickCommand {
     public StatusCommand() {
@@ -13,7 +14,7 @@ public class StatusCommand extends DickCommand {
     }
 
     @Override
-    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system) {
+    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
         MessageBuilder builder = new MessageBuilder();
         builder.append("主人：{}({})", new AtAction(info.qq_id).toAction(), info.qq_id).append("\n");
         builder.append("名称：{}", info.name).append("\n");

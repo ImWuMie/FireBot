@@ -6,6 +6,7 @@ import dev.wumie.system.event.dick.DickCommand;
 import dev.wumie.system.event.dick.DickSystem;
 import dev.wumie.system.event.dick.NiuZiInfo;
 import dev.wumie.system.event.dick.NiuZiManager;
+import dev.wumie.system.user.UserInfo;
 
 public class RequestCommand extends DickCommand {
     public RequestCommand() {
@@ -15,7 +16,7 @@ public class RequestCommand extends DickCommand {
     private static final String PREFIX = "--------对象系统--------";
 
     @Override
-    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system) {
+    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
         if (args.length == 2) {
             switch (args[0]) {
                 case "搞对象" -> {
@@ -44,6 +45,11 @@ public class RequestCommand extends DickCommand {
                     NiuZiManager.INSTANCE.saveDicks();
                 }
                 case "分手" -> {
+                    if (info.fenshou_data.equals(info.fenshou_data)) {
+                        system.send(exec, "没有待处理的请求");
+                        return;
+                    }
+
                     switch (args[1]) {
                         case "同意" -> {
                             MessageBuilder builder = new MessageBuilder();

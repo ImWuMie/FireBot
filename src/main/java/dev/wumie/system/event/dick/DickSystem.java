@@ -22,7 +22,12 @@ public class DickSystem extends MsgEvent {
         commands.add(new StatusCommand());
         commands.add(new GetCommand());
         commands.add(new SignCommand());
+        commands.add(new DoiCommand());
+        commands.add(new ChangeSexCommand());
+        commands.add(new LoveRequestCommand());
         commands.add(new NameCommand());
+        commands.add(new LoverCommand());
+        commands.add(new LeaveCommand());
     }
 
     @Override
@@ -46,7 +51,9 @@ public class DickSystem extends MsgEvent {
                     }
 
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    command.run(newArgs, exec, info, this);
+                    command.system = this;
+                    command.message = exec;
+                    command.run(newArgs, exec, info, this, userInfo);
                 }
             }
         } else if (msg.startsWith("牛子系统")) {

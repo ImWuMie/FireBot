@@ -4,6 +4,8 @@ import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.dick.DickCommand;
 import dev.wumie.system.event.dick.DickSystem;
 import dev.wumie.system.event.dick.NiuZiInfo;
+import dev.wumie.system.user.Rank;
+import dev.wumie.system.user.UserInfo;
 import dev.wumie.utils.RandomUtils;
 import dev.wumie.utils.Times;
 
@@ -13,7 +15,9 @@ public class SignCommand extends DickCommand {
     }
 
     @Override
-    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system) {
+    public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
+        boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level;
+
         boolean canSign = (info.last_sign + Times.DAY) <= System.currentTimeMillis();
 
         if (canSign) {

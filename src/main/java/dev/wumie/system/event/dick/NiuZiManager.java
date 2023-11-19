@@ -42,6 +42,9 @@ public class NiuZiManager {
         info.niuZiCM = RandomUtils.nextDouble(15, 30);
         info.qq_id = qq;
         info.sex = NiuZiInfo.SexType.MALE.name;
+        info.fenshou_data = info.qq_id;
+        info.love_request = info.qq_id;
+        info.lover = info.qq_id;
         this.list.add(info);
         saveDicks();
     }
