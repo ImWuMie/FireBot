@@ -10,14 +10,10 @@ import java.io.File;
 
 public abstract class MsgEvent {
     public final String eventName;
-    public final File FOLDER;
+    public File FOLDER;
 
     public MsgEvent(String eventName) {
         this.eventName = eventName;
-        FOLDER = new File(FireQQ.FOLDER,eventName);
-        if (!FOLDER.exists()) {
-            FOLDER.mkdirs();
-        }
     }
 
     public abstract void run(String message, QMessage exec, UserInfo userInfo);

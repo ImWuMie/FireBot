@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import dev.wumie.FireQQ;
 import dev.wumie.utils.GsonUtils;
 import dev.wumie.utils.RandomUtils;
-import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

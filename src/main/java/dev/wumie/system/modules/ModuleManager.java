@@ -2,6 +2,7 @@ package dev.wumie.system.modules;
 
 import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
+import dev.wumie.system.MessageHandler;
 import dev.wumie.system.modules.impl.CheckModule;
 import dev.wumie.system.modules.impl.JKModule;
 import dev.wumie.system.modules.impl.TTSModule;
@@ -16,14 +17,14 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ModuleManager {
-    public final Logger LOG = LogManager.getLogger("Module");
+    public static final Logger LOG = LogManager.getLogger("Module");
     public final List<Module> modules = new CopyOnWriteArrayList<>();
     public static String PREFIX = "";
 
-    public static ModuleManager INSTANCE;
+    private final MessageHandler handler;
 
-    public ModuleManager() {
-        INSTANCE = this;
+    public ModuleManager(MessageHandler handler) {
+        this.handler = handler;
     }
 
     public void init() {

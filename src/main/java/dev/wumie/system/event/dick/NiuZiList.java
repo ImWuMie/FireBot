@@ -19,11 +19,7 @@ public class NiuZiList {
 
     public void addAll(NiuZiList i) {
         i.dicks.forEach((info) -> {
-            if (info.fenshou_data == null) {info.fenshou_data = info.qq_id;}
-            if (info.love_request == null) {info.love_request = info.qq_id;}
-            if (info.lover == null) {info.lover = info.qq_id;}
-
-            this.dicks.add(info);
+            this.dicks.add(info.check());
         });
     }
 

@@ -42,7 +42,7 @@ public class NiuZiInfo {
         this.niuZiCM += add;
     }
 
-    public void jijian(boolean winner,double min,double max) {
+    public void jijian(boolean winner, double min, double max) {
         double add = RandomUtils.nextDouble(min, max);
         if (!winner) {
             add = -add;
@@ -86,5 +86,18 @@ public class NiuZiInfo {
         SexType(String name) {
             this.name = name;
         }
+    }
+
+    public NiuZiInfo check() {
+        if (this.fenshou_data == null) {
+            this.fenshou_data = this.qq_id;
+        }
+        if (this.love_request == null) {
+            this.love_request = this.qq_id;
+        }
+        if (this.lover == null) {
+            this.lover = this.qq_id;
+        }
+        return this;
     }
 }
