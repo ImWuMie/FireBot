@@ -126,8 +126,6 @@ public class MessageHandler {
     }
 
     private void processGroupMessage(QMessage message) {
-        if (message.group_id.startsWith("750288446")) return;
-
         LOG.info("({}) {}: {}", message.message_id, message.user_id, message.fullMessage);
         String msg = message.message;
         if (msg.startsWith("exception")) {
