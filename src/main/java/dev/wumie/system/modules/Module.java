@@ -3,6 +3,7 @@ package dev.wumie.system.modules;
 import dev.wumie.FireQQ;
 import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
+import dev.wumie.system.MessageHandler;
 import dev.wumie.system.user.UserInfo;
 
 import java.io.File;
@@ -12,19 +13,17 @@ import java.util.List;
 
 public abstract class Module {
     public final String name;
+    public final String permName;
     public final List<String> aliases = new ArrayList<>();
     public QMessage message;
     public PrivateQMessage privateQMessage;
-    protected final File MODULES_FOLDER = new File(FireQQ.INSTANCE.FOLDER,"modules");
-    protected final File FOLDER;
+    public File FOLDER;
+    public MessageHandler handler;
 
-    public Module(String name, String... aliases) {
+    public Module(String name, String permName,String... aliases) {
         this.name = name;
+        this.permName = permName;
         Collections.addAll(this.aliases, aliases);
-        FOLDER = new File(MODULES_FOLDER,name);
-        if (!MODULES_FOLDER.exists()) MODULES_FOLDER.mkdirs();
-
-        if (!FOLDER.exists()) FOLDER.mkdirs();
     }
 
     public abstract void run(String[] args, QMessage message, UserInfo userInfo);

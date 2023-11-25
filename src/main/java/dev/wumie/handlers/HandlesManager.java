@@ -16,6 +16,22 @@ public class HandlesManager {
         INSTANCE = this;
     }
 
+    public boolean hasHandler(String handlerName) {
+        return handlers.stream().anyMatch((f) -> f.name.equals(handlerName));
+    }
+
+    public boolean hasHandler(Class<? extends Handler> hClass) {
+        return handlers.stream().anyMatch((f) -> f.getClass().equals(hClass));
+    }
+
+    public <T extends Handler> T getHandler(String handlerName) {
+        return (T) handlers.stream().filter((f) -> f.name.equals(handlerName)).findFirst().orElse(null);
+    }
+
+    public <T extends Handler> T getHandler(Class<T> hClass) {
+        return (T) handlers.stream().filter((f) -> f.getClass().equals(hClass)).findFirst().orElse(null);
+    }
+
     public void addFirst(Handler handler) {
         handlers.addFirst(handler);
     }
@@ -47,6 +63,13 @@ public class HandlesManager {
             h.main = server;
             h.init();
         });
+    }
+
+    public void reload() {
+        handlers.forEach(Handler::reload);
+    }
+    public void stop() {
+        handlers.forEach(Handler::stop);
     }
 
     public boolean checkMessage(Message message) {

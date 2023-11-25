@@ -18,7 +18,7 @@ public class LoverCommand extends DickCommand {
     @Override
     public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
         if (info.hasLover()) {
-            NiuZiInfo lover = NiuZiManager.INSTANCE.get(info.lover);
+            NiuZiInfo lover = NiuZiManager.INSTANCE.get(exec.group_id,info.lover);
             MessageBuilder builder = new MessageBuilder();
             builder.append("你的对象：{}({})",new AtAction(lover.qq_id).toAction(),lover.qq_id).append("\n");
             builder.append("Ta的牛子：{}",lover.name).append("\n");

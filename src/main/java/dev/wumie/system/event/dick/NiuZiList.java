@@ -18,13 +18,11 @@ public class NiuZiList {
     }
 
     public void addAll(NiuZiList i) {
-        i.dicks.forEach((info) -> {
-            this.dicks.add(info.check());
-        });
+        i.dicks.forEach((info) -> this.dicks.add(info.check()));
     }
 
-    public NiuZiInfo get(String qq) {
-        return dicks.stream().filter(d -> d.qq_id.equals(qq)).findFirst().orElse(null);
+    public NiuZiInfo get(String group,String qq) {
+        return dicks.stream().filter(d -> d.qq_id.equals(qq) && d.group_id.equals(group)).findFirst().orElse(null);
     }
 
     public void remove(NiuZiInfo info) {

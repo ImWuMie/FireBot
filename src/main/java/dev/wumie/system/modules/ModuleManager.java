@@ -1,5 +1,7 @@
 package dev.wumie.system.modules;
 
+import dev.wumie.handlers.HandlesManager;
+import dev.wumie.handlers.luckperms.LuckPermsHandler;
 import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.MessageHandler;
@@ -11,6 +13,7 @@ import dev.wumie.system.user.UserManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
@@ -22,15 +25,22 @@ public class ModuleManager {
     public static String PREFIX = "";
 
     private final MessageHandler handler;
+    public final File FOLDER;
 
     public ModuleManager(MessageHandler handler) {
         this.handler = handler;
+        FOLDER = new File(handler.FOLDER, "modules");
     }
 
     public void init() {
         add(TTSModule.class);
         add(CheckModule.class);
         add(JKModule.class);
+
+        modules.forEach((m) -> {
+            m.handler = this.handler;
+            m.FOLDER = new File(FOLDER, m.name);
+        });
     }
 
     public void handlePrivateMessage(PrivateQMessage privateMessage) {
@@ -70,7 +80,7 @@ public class ModuleManager {
         }
     }
 
-    public void handleMessage(QMessage groupMessage) {
+    public void handleMessage(QMessage groupMessage, HandlesManager handlerManager) {
         String msg = groupMessage.message;
         if (msg.length() == 0) return;
         if (msg.startsWith(PREFIX)) {
@@ -95,6 +105,14 @@ public class ModuleManager {
                 }
 
                 if (isCommand) {
+                    if (handlerManager.hasHandler("luck_perms")) {
+                        LuckPermsHandler handler = handlerManager.getHandler("luck_perms");
+                        if (!handler.hasPerms(groupMessage.user_id,command.permName)) {
+                            groupMessage.send("你没有权限执行 {}", command.permName);
+                            return;
+                        }
+                    }
+
                     command.message = groupMessage;
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
 

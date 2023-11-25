@@ -34,7 +34,7 @@ public class LoveRequestCommand extends DickCommand {
                     send(exec, "你有对象了你还找对象？");
                     return;
                 }
-                NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(target);
+                NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(exec.group_id,target);
                 if (targetInfo == null) {
                     send(exec, "真可惜！Ta没有牛子");
                     return;

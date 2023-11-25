@@ -25,16 +25,16 @@ public class NiuZiManager {
         INSTANCE = this;
     }
 
-    public NiuZiInfo get(String qq) {
-        return list.get(qq);
+    public NiuZiInfo get(String group,String qq) {
+        return list.get(group,qq);
     }
 
-    public boolean hasNiuZi(String qq) {
-        return get(qq) != null;
+    public boolean hasNiuZi(String group,String qq) {
+        return get(group,qq) != null;
     }
 
     public void createNiuZi(String group,String qq) {
-        if (hasNiuZi(qq)) return;
+        if (hasNiuZi(group,qq)) return;
 
         NiuZiInfo info = new NiuZiInfo();
         info.name = "牛子";

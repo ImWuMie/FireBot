@@ -22,10 +22,10 @@ public class BotMain extends WebSocketServer {
     public static BotMain INSTANCE;
 
     public final Map<String, MessageHandler> handlers = new HashMap<>();
-    private PrivateMsgHandler privateHandler;
+    public PrivateMsgHandler privateHandler;
     public final Gson gson = FireQQ.INSTANCE.gson;
     private final Logger LOG = LogManager.getLogger("MsgServer");
-    private final HandlesManager handlesManager = new HandlesManager(this);
+    public final HandlesManager handlesManager = new HandlesManager(this);
 
     public BotMain(int port) {
         super(new InetSocketAddress(port));
@@ -122,10 +122,12 @@ public class BotMain extends WebSocketServer {
 
     public void stopMain() {
         handlers.forEach((g,h) -> h.stop());
+        handlesManager.stop();
     }
 
     public void reload() {
         handlers.forEach((g,h) -> h.reload());
+        handlesManager.reload();
     }
 
     @Override

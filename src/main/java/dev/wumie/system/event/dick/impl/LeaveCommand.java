@@ -21,7 +21,7 @@ public class LeaveCommand extends DickCommand {
             send(exec,"你没对象你分哪门子手？");
             return;
         }
-        NiuZiInfo lover = NiuZiManager.INSTANCE.get(info.lover);
+        NiuZiInfo lover = NiuZiManager.INSTANCE.get(exec.group_id,info.lover);
         info.fenshou_data = lover.qq_id;
         String a = "{0} 你好，{} 想跟你分手\n";
         String b = "输入命令「处理请求 分手 同意/不同意」";

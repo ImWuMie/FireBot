@@ -3,6 +3,7 @@ package dev.wumie.system;
 import com.google.gson.Gson;
 import dev.wumie.FireQQ;
 import dev.wumie.TickingTask;
+import dev.wumie.handlers.HandlesManager;
 import dev.wumie.messages.HeartMessage;
 import dev.wumie.messages.Message;
 import dev.wumie.messages.PrivateQMessage;
@@ -47,6 +48,8 @@ public class MessageHandler {
         this.group_id = group;
         this.main = server;
         this.FOLDER = new File(FireQQ.INSTANCE.GROUP_FOLDER, group);
+        if (!FOLDER.exists()) FOLDER.mkdirs();
+
         CONFIGS_JSON = new File(FOLDER, "group.json");
 
         manager = new ModuleManager(this);
@@ -77,6 +80,7 @@ public class MessageHandler {
     }
 
     public void reload() {
+        loadConfig();
     }
 
     public void stop() {
@@ -134,8 +138,10 @@ public class MessageHandler {
             throw new RuntimeException("玩原神玩烂了");
         }
 
-        eventManager.handleMessage(message);
-        manager.handleMessage(message);
+        HandlesManager handlesManager = main.handlesManager;
+
+        eventManager.handleMessage(message, handlesManager);
+        manager.handleMessage(message, handlesManager);
     }
 
     public void loadConfig() {

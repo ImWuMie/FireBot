@@ -73,7 +73,7 @@ public class DickSystem extends MsgEvent {
             for (DickCommand command : commands) {
                 boolean isCommand = commandName.equalsIgnoreCase(command.name);
                 if (isCommand) {
-                    NiuZiInfo info = NiuZiManager.INSTANCE.get(user);
+                    NiuZiInfo info = NiuZiManager.INSTANCE.get(exec.group_id, user);
                     if (info == null && !commandName.equals("领养牛子")) {
                         send(exec, "没有牛子你用什么用滚");
                         return;

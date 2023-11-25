@@ -26,7 +26,7 @@ public class DoiCommand extends DickCommand {
         boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.INSTANCE.configs.dick_admin_no_cooldown;
 
         String target = info.getLover();
-        NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(target);
+        NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(exec.group_id,target);
         if (targetInfo == null) return;
 
         double length = RandomUtils.nextDouble(0,121);

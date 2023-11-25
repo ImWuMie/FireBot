@@ -6,7 +6,7 @@ import dev.wumie.system.user.UserInfo;
 
 public class TTSModule extends Module {
     public TTSModule() {
-        super("tts");
+        super("tts","fire.tts");
     }
 
     private long lastSend = 0;

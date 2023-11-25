@@ -1,6 +1,7 @@
 package dev.wumie.system.event;
 
 import dev.wumie.FireQQ;
+import dev.wumie.handlers.HandlesManager;
 import dev.wumie.messages.NoticeMessage;
 import dev.wumie.messages.PrivateQMessage;
 import dev.wumie.messages.QMessage;
@@ -68,7 +69,7 @@ public class MsgEventManager {
         }
     }
 
-    public void handleMessage(QMessage groupMessage) {
+    public void handleMessage(QMessage groupMessage, HandlesManager handlerManager) {
         String msg = groupMessage.message;
         if (msg.length() == 0) return;
         if (msg.startsWith(PREFIX)) {

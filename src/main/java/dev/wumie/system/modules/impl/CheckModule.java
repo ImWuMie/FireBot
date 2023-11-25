@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 public class CheckModule extends Module {
     public CheckModule() {
-        super("check", "ch","cha");
+        super("check","fire.check", "ch","cha");
     }
 
     @Override

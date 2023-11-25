@@ -6,7 +6,7 @@ import dev.wumie.system.user.UserInfo;
 
 public class EWMModule extends Module {
     public EWMModule() {
-        super("ewm","2wm","qr");
+        super("ewm","fire.qr","2wm","qr");
     }
 
     @Override

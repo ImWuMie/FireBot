@@ -30,7 +30,7 @@ public class PKCommand extends DickCommand {
                 return;
             }
 
-            NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(targetQQ);
+            NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(exec.group_id,targetQQ);
             if (targetInfo == null) {
                 system.send(exec, "真可惜！你选的比划对象人家没有牛子");
                 return;

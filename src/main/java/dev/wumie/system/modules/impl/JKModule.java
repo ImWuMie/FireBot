@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class JKModule extends Module {
     public JKModule() {
-        super("jk", "jb");
+        super("jk", "fire.jb","jb");
     }
 
     private long lastSend = 0;
