@@ -180,7 +180,7 @@ public class LuckPermsHandler extends Handler {
             return;
         }
 
-        PermsInfo info = permsMap.getByGroup(qq);
+        PermsInfo info = permsMap.get(qq);
         if (info != null) {
             info.member.remove(qq);
         }
