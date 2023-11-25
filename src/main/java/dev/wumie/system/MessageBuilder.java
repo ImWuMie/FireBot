@@ -50,7 +50,7 @@ public class MessageBuilder {
     }
 
     public String get(String group) {
-        return new MsgAction(group,this.currentBuilder.toString()).toAction();
+        return new MsgAction(group,this.getString()).toAction();
     }
 
     public String get() {
@@ -58,6 +58,6 @@ public class MessageBuilder {
     }
 
     public String getString() {
-        return currentBuilder.toString();
+        return currentBuilder.substring(0,autoNextLine ? currentBuilder.length() - "\n".length() : currentBuilder.length());
     }
 }
