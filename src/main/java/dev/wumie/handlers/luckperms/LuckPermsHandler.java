@@ -82,6 +82,7 @@ public class LuckPermsHandler extends Handler {
             msg = m.message;
         }
         if (msg.startsWith("lp")) {
+            cancel();
             String cmd = msg.substring("lp".length());
             String[] args = cmd.split(" ");
             if (args.length == 0) return;
