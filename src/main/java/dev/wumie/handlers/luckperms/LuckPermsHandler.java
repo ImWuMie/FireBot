@@ -72,19 +72,26 @@ public class LuckPermsHandler extends Handler {
     @Override
     public void message(Message message) {
         String msg = "";
+        String qq = "null";
         if (message instanceof QMessage m) {
             msg = m.message;
+            qq = m.user_id;
         } else if (message instanceof PrivateQMessage m) {
             msg = m.message;
+            qq = m.user_id;
         }
         if (msg.startsWith("lp")) {
             cancel();
-            String cmd = msg.substring("lp".length());
-            String[] args = cmd.split(" ");
-            if (args.length == 0) return;
+            if (!qq.equalsIgnoreCase("null") && hasPerms(qq,"fire.lp")) {
+                String cmd = msg.substring("lp".length());
+                String[] args = cmd.split(" ");
+                if (args.length == 0) return;
 
-            String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-            onMsg(message, newArgs);
+                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                onMsg(message, newArgs);
+            } else {
+                log(true,message,"[LP] 你没有权限执行 {}","fire.lp");
+            }
         }
     }
 
@@ -160,7 +167,7 @@ public class LuckPermsHandler extends Handler {
         } else {
             if (info.perms.contains(perms)) {
                 info.perms.remove(perms);
-                log(log, m, "[LP] 已'{}'中的权限'{}'", groupName, perms);
+                log(log, m, "[LP] 已删除'{}'中的权限'{}'", groupName, perms);
             } else {
                 log(log, m, "[LP] 权限组'{}'中不存在权限'{}'", groupName, perms);
             }

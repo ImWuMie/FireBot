@@ -1,6 +1,7 @@
 package dev.wumie;
 
 import com.google.gson.Gson;
+import dev.wumie.handlers.luckperms.LuckPermsHandler;
 import dev.wumie.system.Configs;
 import dev.wumie.system.event.dick.NiuZiManager;
 import dev.wumie.system.user.UserManager;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.HashSet;
 
@@ -40,11 +42,11 @@ public class FireQQ {
 
     public static volatile boolean running;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         (INSTANCE = new FireQQ()).start();
     }
 
-    public void start() {
+    public void start() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         running = true;
         LOG.info("Starting " + CLIENT_NAME + " " + CLIENT_VERSION + ".");
         if (!FOLDER.exists()) FOLDER.mkdirs();
@@ -52,6 +54,9 @@ public class FireQQ {
         loadConfig();
         userManager = new UserManager();
         BotMain mainServer = new BotMain(4444);
+
+        mainServer.addFirst(LuckPermsHandler.class);
+
         mainServer.start();
         niuZiManager = new NiuZiManager();
         LOG.info("Post loading bot...");
