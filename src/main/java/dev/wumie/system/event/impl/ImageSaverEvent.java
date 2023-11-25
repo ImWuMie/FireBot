@@ -1,5 +1,6 @@
 package dev.wumie.system.event.impl;
 
+import dev.wumie.FireQQ;
 import dev.wumie.messages.QMessage;
 import dev.wumie.system.actions.PicAction;
 import dev.wumie.system.event.MsgEvent;
@@ -49,7 +50,7 @@ public class ImageSaverEvent extends MsgEvent {
 
                     int urlIndex = ("[CQ:image,file=" + file + ",subType=" + subType + ",url=").length();
                     String url = message.substring(urlIndex, message.length() - 1);
-                    File imageFile = new File(FOLDER, file);
+                    File imageFile = new File(FireQQ.INSTANCE.FOLDER.toPath().resolve("image_saver").toFile(), file);
                     if (!imageFile.exists()) {
                         try {
                             //exec.send("好图,我的了");

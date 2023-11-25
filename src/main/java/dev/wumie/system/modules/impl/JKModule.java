@@ -34,7 +34,7 @@ public class JKModule extends Module {
             lastClear = System.currentTimeMillis();
         }
 
-        FireQQ.async.submit(() -> {
+        FireQQ.INSTANCE.async.submit(() -> {
             if (System.currentTimeMillis() - lastSend >= 5000L) {
 
                 File file = new File(FOLDER, "jk0.png");

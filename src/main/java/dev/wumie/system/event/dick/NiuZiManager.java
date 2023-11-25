@@ -15,7 +15,7 @@ public class NiuZiManager {
     public final NiuZiList list = new NiuZiList();
     public static NiuZiManager INSTANCE;
 
-    public final File FOLDER = new File(FireQQ.FOLDER, "dick_system");
+    public final File FOLDER = new File(FireQQ.INSTANCE.FOLDER, "dicks");
     public final File DICKS_JSON = new File(FOLDER, "dicks.json");
 
     public final Gson gson = GsonUtils.newBuilder().create();
@@ -33,11 +33,12 @@ public class NiuZiManager {
         return get(qq) != null;
     }
 
-    public void createNiuZi(String qq) {
+    public void createNiuZi(String group,String qq) {
         if (hasNiuZi(qq)) return;
 
         NiuZiInfo info = new NiuZiInfo();
-        info.name = "牛子" + list.size() + "号";
+        info.name = "牛子";
+        info.group_id = group;
         info.niuZiCM = RandomUtils.nextDouble(15, 30);
         info.qq_id = qq;
         info.sex = NiuZiInfo.SexType.MALE.name;

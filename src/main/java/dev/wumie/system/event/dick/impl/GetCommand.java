@@ -10,16 +10,16 @@ import dev.wumie.system.user.UserInfo;
 
 public class GetCommand extends DickCommand {
     public GetCommand() {
-        super("领养牛子","无","领养一只牛子");
+        super("领养牛子", "无", "领养一只牛子");
     }
 
     @Override
     public void run(String[] args, QMessage exec, NiuZiInfo info, DickSystem system, UserInfo userInfo) {
         if (info == null) {
-            NiuZiManager.INSTANCE.createNiuZi(exec.user_id);
-            system.send(exec,new AtAction(exec.user_id).toAction() +  " 领养了，输入「我的牛子」查看你的牛子信息");
+            NiuZiManager.INSTANCE.createNiuZi(exec.group_id, exec.user_id);
+            system.send(exec, new AtAction(exec.user_id).toAction() + " 领养了，输入「我的牛子」查看你的牛子信息");
         } else {
-            system.send(exec,"？你有了你还领，有病");
+            system.send(exec, "？你有了你还领，有病");
         }
     }
 }

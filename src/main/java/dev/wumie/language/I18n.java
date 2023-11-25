@@ -27,12 +27,12 @@ public class I18n {
             try {
                 this.bundle = ResourceBundle.getBundle("lang/", language.getLocale(), new UTF8Control());
             } catch (MissingResourceException e) {
-                FireQQ.LOG.warn("Error get bundle.");
+                FireQQ.INSTANCE.LOG.warn("Error get bundle.");
                 e.printStackTrace();
             }
 
             if (!silent)
-                FireQQ.LOG.info("Using language: " + language + " @ /lang/" + language.getLanguageCode() + ".properties");
+                FireQQ.INSTANCE.LOG.info("Using language: " + language + " @ /lang/" + language.getLanguageCode() + ".properties");
         } catch (Exception ignored) {
         }
     }
@@ -50,19 +50,19 @@ public class I18n {
 
     public void info(String key, Object... args) {
         for (String line : t(key, args).split("\n")) {
-            FireQQ.LOG.info(line);
+            FireQQ.INSTANCE.LOG.info(line);
         }
     }
 
     public void warning(String key, Object... args) {
         for (String line : t(key, args).split("\n")) {
-            FireQQ.LOG.info(line);
+            FireQQ.INSTANCE.LOG.info(line);
         }
     }
 
     public void severe(String key, Object... args) {
         for (String line : t(key, args).split("\n")) {
-            FireQQ.LOG.info(line);
+            FireQQ.INSTANCE.LOG.info(line);
         }
     }
 }

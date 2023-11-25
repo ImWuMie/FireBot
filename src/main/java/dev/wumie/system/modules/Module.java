@@ -15,7 +15,7 @@ public abstract class Module {
     public final List<String> aliases = new ArrayList<>();
     public QMessage message;
     public PrivateQMessage privateQMessage;
-    protected final File MODULES_FOLDER = new File(FireQQ.FOLDER,"modules");
+    protected final File MODULES_FOLDER = new File(FireQQ.INSTANCE.FOLDER,"modules");
     protected final File FOLDER;
 
     public Module(String name, String... aliases) {

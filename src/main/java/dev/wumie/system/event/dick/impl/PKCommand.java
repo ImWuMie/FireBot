@@ -36,7 +36,7 @@ public class PKCommand extends DickCommand {
                 return;
             }
 
-            boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.configs.dick_admin_no_cooldown;
+            boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.INSTANCE.configs.dick_admin_no_cooldown;
 
             double delta = RandomUtils.nextDouble(0, 10);
             String source = exec.user_id;
@@ -45,7 +45,7 @@ public class PKCommand extends DickCommand {
                 return;
             }
 
-            long pkCD = FireQQ.configs.dick_pk_delay;
+            long pkCD = FireQQ.INSTANCE.configs.dick_pk_delay;
             info.hongzhong_data = System.currentTimeMillis() + pkCD;
             targetInfo.hongzhong_data = System.currentTimeMillis() + pkCD;
             int success = RandomUtils.nextInt(0, 101);

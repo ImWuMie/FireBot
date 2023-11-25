@@ -3,7 +3,10 @@ package dev.wumie.system;
 import com.google.gson.Gson;
 import dev.wumie.FireQQ;
 import dev.wumie.TickingTask;
-import dev.wumie.messages.*;
+import dev.wumie.messages.HeartMessage;
+import dev.wumie.messages.Message;
+import dev.wumie.messages.PrivateQMessage;
+import dev.wumie.messages.QMessage;
 import dev.wumie.system.event.MsgEventManager;
 import dev.wumie.system.modules.ModuleManager;
 import dev.wumie.utils.GsonUtils;
@@ -12,6 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -28,6 +33,7 @@ public class MessageHandler {
     public final File FOLDER;
 
     public GroupConfig groupConfig = GroupConfig.newConfig();
+    private final File CONFIGS_JSON;
 
     public long lastSendDelay;
 
@@ -40,7 +46,8 @@ public class MessageHandler {
     public MessageHandler(String group, BotMain server) {
         this.group_id = group;
         this.main = server;
-        this.FOLDER = new File(FireQQ.INSTANCE.GROUP_FOLDER,group);
+        this.FOLDER = new File(FireQQ.INSTANCE.GROUP_FOLDER, group);
+        CONFIGS_JSON = new File(FOLDER, "group.json");
 
         manager = new ModuleManager(this);
         eventManager = new MsgEventManager(this);
@@ -60,6 +67,7 @@ public class MessageHandler {
 
     public void load() {
         try {
+            loadConfig();
             loopThread.start();
             eventManager.init();
             manager.init();
@@ -72,10 +80,16 @@ public class MessageHandler {
     }
 
     public void stop() {
+        saveConfig();
     }
 
     private void postMessage(Message msg) {
+        if (!groupConfig.enable) return;
+
         try {
+            if (msg instanceof QMessage m) {
+                processGroupMessage(m);
+            }
         } catch (Throwable e) {
             MessageBuilder builder = new MessageBuilder();
             builder.append("--------").append("Stacktrace").append("--------").append("\n");
@@ -122,5 +136,36 @@ public class MessageHandler {
 
         eventManager.handleMessage(message);
         manager.handleMessage(message);
+    }
+
+    public void loadConfig() {
+        if (!CONFIGS_JSON.exists()) {
+            saveConfig();
+        }
+
+        String text = null;
+        try {
+            text = Files.readString(CONFIGS_JSON.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        GroupConfig l = gson.fromJson(text, GroupConfig.class);
+        if (l == null) {
+            saveConfig();
+        } else {
+            groupConfig = l.apply(this.groupConfig);
+        }
+        LOG.info("Successful loaded configs.");
+    }
+
+    public void saveConfig() {
+        try {
+            String json = gson.toJson(groupConfig);
+            if (!CONFIGS_JSON.exists()) CONFIGS_JSON.createNewFile();
+
+            Files.writeString(CONFIGS_JSON.toPath(), json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class DoiCommand extends DickCommand {
             send(exec, "贴你ma 你都没人跟你贴");
             return;
         }
-        boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.configs.dick_admin_no_cooldown;
+        boolean noCooldown = userInfo != null && userInfo.rank_level >= Rank.Admin.level && FireQQ.INSTANCE.configs.dick_admin_no_cooldown;
 
         String target = info.getLover();
         NiuZiInfo targetInfo = NiuZiManager.INSTANCE.get(target);
@@ -36,7 +36,7 @@ public class DoiCommand extends DickCommand {
             return;
         }
         int h = RandomUtils.nextInt(0,13);
-        long data = (12 + h + (long) RandomUtils.nextDouble(0,1)) * FireQQ.configs.dick_doi_delay;
+        long data = (12 + h + (long) RandomUtils.nextDouble(0,1)) * FireQQ.INSTANCE.configs.dick_doi_delay;
         info.tietie_data = now + data;
         targetInfo.tietie_data = now + data;
         info.niuZiCM += length;

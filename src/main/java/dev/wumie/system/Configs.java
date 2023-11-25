@@ -3,7 +3,9 @@ package dev.wumie.system;
 import com.google.gson.annotations.SerializedName;
 import dev.wumie.utils.Times;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Configs {
@@ -31,6 +33,26 @@ public class Configs {
 
     @SerializedName("dick_admin_no_cooldown")
     public boolean dick_admin_no_cooldown;
+
+
+    public Configs apply(Configs other) {
+        try {
+            Field[] fields = other.getClass().getDeclaredFields();
+            Field[] thisFs = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(SerializedName.class)) {
+                    String fieldName = field.getName();
+                    Field target = Arrays.stream(thisFs).filter((f) -> f.getName().equals(fieldName)).findFirst().orElse(null);
+                    if (target != null && field.get(this) == null) {
+                        target.set(this, field.get(other));
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
 
     public static Configs newConfig() {
         Configs configs = new Configs();

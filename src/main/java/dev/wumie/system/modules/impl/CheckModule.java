@@ -56,7 +56,7 @@ public class CheckModule extends Module {
                     }
                 };
 
-                FireQQ.async.submit(run);
+                FireQQ.INSTANCE.async.submit(run);
             }
         }
     }

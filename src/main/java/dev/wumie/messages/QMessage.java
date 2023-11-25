@@ -1,11 +1,11 @@
 package dev.wumie.messages;
 
 import com.google.gson.annotations.SerializedName;
-import dev.wumie.FireQQ;
 import dev.wumie.messages.impls.Sender;
 import dev.wumie.system.MessageBuilder;
-import dev.wumie.utils.RandomUtils;
+import dev.wumie.system.MessageHandler;
 import dev.wumie.utils.StringUtils;
+import dev.wumie.websocket.BotMain;
 
 public class QMessage extends Message {
     @SerializedName("post_type")
@@ -42,6 +42,10 @@ public class QMessage extends Message {
     @SerializedName("message_seq")
     public String message_seq;
 
+    public MessageHandler getHandler() {
+        return BotMain.INSTANCE.handlers.getOrDefault(this.group_id,null);
+    }
+
     @Override
     public String toString() {
         return "QMessage{" +
@@ -66,7 +70,7 @@ public class QMessage extends Message {
         message = StringUtils.getReplaced(message, args);
         MessageBuilder builder = new MessageBuilder();
         builder.append(message);
-        FireQQ.HANDLER.chat(builder.get(this.group_id));
+        getHandler().send(builder.get(this.group_id));
     }
 
     public void face(int faceId) {

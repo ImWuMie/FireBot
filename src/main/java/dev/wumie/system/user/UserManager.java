@@ -15,7 +15,7 @@ public class UserManager {
     public final UserList list = new UserList();
     public static UserManager INSTANCE;
 
-    public final File FOLDER = new File(FireQQ.FOLDER, "user_system");
+    public final File FOLDER = new File(FireQQ.INSTANCE.FOLDER, "user");
     public final File USERS_JSON = new File(FOLDER, "users.json");
 
     public final Gson gson = GsonUtils.newBuilder().create();

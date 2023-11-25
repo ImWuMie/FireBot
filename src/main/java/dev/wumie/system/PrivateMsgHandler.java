@@ -27,7 +27,7 @@ public class PrivateMsgHandler {
     }
 
     public void submitMsg(Message message) {
-
+        msgTask.add(message);
     }
 
     private void postMessage(Message msg) {

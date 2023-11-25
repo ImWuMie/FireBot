@@ -21,9 +21,9 @@ import java.util.Map;
 public class BotMain extends WebSocketServer {
     public static BotMain INSTANCE;
 
-    private final Map<String, MessageHandler> handlers = new HashMap<>();
+    public final Map<String, MessageHandler> handlers = new HashMap<>();
     private PrivateMsgHandler privateHandler;
-    private final Gson gson = FireQQ.INSTANCE.gson;
+    public final Gson gson = FireQQ.INSTANCE.gson;
     private final Logger LOG = LogManager.getLogger("MsgServer");
     private final HandlesManager handlesManager = new HandlesManager(this);
 
@@ -43,36 +43,34 @@ public class BotMain extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String message) {
         if (message != null && !message.isEmpty()) {
-            decodeMessage(message);
+            try {
+                decodeMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void decodeMessage(String json) {
         Message msg = null;
         TempMsg message = gson.fromJson(json, TempMsg.class);
+        if (message.msgType == null) return;
+
         switch (message.msgType) {
-            case Message.LIFECYCLE -> {
-                msg = gson.fromJson(json, ConnectedMessage.class);
-            }
-            case Message.META_EVENT_HEART -> {
-                msg = gson.fromJson(json, HeartMessage.class);
-            }
-            case Message.NOTICE_MESSAGE -> {
-                msg = gson.fromJson(json, NoticeMessage.class);
-            }
+            case Message.LIFECYCLE -> msg = gson.fromJson(json, ConnectedMessage.class);
+            case Message.META_EVENT_HEART -> msg = gson.fromJson(json, HeartMessage.class);
+            case Message.NOTICE_MESSAGE -> msg = gson.fromJson(json, NoticeMessage.class);
             case Message.USER_MESSAGE -> {
                 UserMessage um = gson.fromJson(json, UserMessage.class);
                 switch (um.message_type) {
                     case Message.GROUP_USER_MESSAGE -> {
                         msg = gson.fromJson(json, QMessage.class);
-                        if (msg != null) {
-                            QMessage mess = (QMessage) msg;
-                            String group = mess.group_id;
-                            if (!handlers.containsKey(group)) {
-                                MessageHandler handler = new MessageHandler(group, this);
-                                handler.load();
-                                handlers.put(group, handler);
-                            }
+                        QMessage mess = (QMessage) msg;
+                        String group = mess.group_id;
+                        if (!handlers.containsKey(group)) {
+                            MessageHandler handler = new MessageHandler(group, this);
+                            handler.load();
+                            handlers.put(group, handler);
                         }
                     }
                     case Message.PRIVATE_USER_MESSAGE -> {
@@ -118,6 +116,18 @@ public class BotMain extends WebSocketServer {
         return this;
     }
 
+    public void load() {
+        handlesManager.init();
+    }
+
+    public void stopMain() {
+        handlers.forEach((g,h) -> h.stop());
+    }
+
+    public void reload() {
+        handlers.forEach((g,h) -> h.reload());
+    }
+
     @Override
     public void onError(WebSocket conn, Exception ex) {
     }
@@ -126,6 +136,5 @@ public class BotMain extends WebSocketServer {
     public void onStart() {
         FireQQ.INSTANCE.LOG.info("--FireBot Server--");
         FireQQ.INSTANCE.LOG.info("Port: " + getPort());
-        handlesManager.init();
     }
 }

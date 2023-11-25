@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import dev.wumie.utils.RandomUtils;
 
 public class NiuZiInfo {
+    @SerializedName("group_id")
+    public String group_id;
     @SerializedName("qq_id")
     public String qq_id;
     @SerializedName("name")

@@ -2,8 +2,8 @@ package dev.wumie;
 
 import com.google.gson.Gson;
 import dev.wumie.system.Configs;
+import dev.wumie.system.event.dick.NiuZiManager;
 import dev.wumie.system.user.UserManager;
-import dev.wumie.task.TaskManager;
 import dev.wumie.utils.GsonUtils;
 import dev.wumie.websocket.BotMain;
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +21,6 @@ public class FireQQ {
 
     public static FireQQ INSTANCE;
 
-    public FireQQ() {
-        INSTANCE = this;
-    }
-
     public final Logger LOG = LogManager.getLogger("FireQQ");
     public final AsyncLoopTask async = new AsyncLoopTask();
     public final DelayLoopTask delayLoopTask = new DelayLoopTask();
@@ -34,7 +30,8 @@ public class FireQQ {
     public Configs configs = Configs.newConfig();
     public final Gson gson = GsonUtils.newBuilder().create();
 
-    public final UserManager userManager = new UserManager();
+    public UserManager userManager;
+    public NiuZiManager niuZiManager;
     private final HashSet<Runnable> runnableSet = new HashSet<>();
 
     public void submit(Runnable task) {
@@ -44,22 +41,26 @@ public class FireQQ {
     public static volatile boolean running;
 
     public static void main(String[] args) {
-        new FireQQ().start();
+        (INSTANCE = new FireQQ()).start();
     }
 
     public void start() {
-        TaskManager.beginTask("Loading fire bot.");
         running = true;
         LOG.info("Starting " + CLIENT_NAME + " " + CLIENT_VERSION + ".");
         if (!FOLDER.exists()) FOLDER.mkdirs();
         LOG.info("Pre loading bot...");
         loadConfig();
+        userManager = new UserManager();
         BotMain mainServer = new BotMain(4444);
         mainServer.start();
+        niuZiManager = new NiuZiManager();
         LOG.info("Post loading bot...");
         LOG.info("FireBot load done.");
         async.start();
         delayLoopTask.start();
+        BotMain.INSTANCE.load();
+        niuZiManager.load();
+        userManager.load();
 
         saveConfig();
         while (running) {
@@ -96,7 +97,7 @@ public class FireQQ {
         if (l == null) {
             saveConfig();
         } else {
-            configs = l;
+            configs = l.apply(this.configs);
         }
         LOG.info("Successful loaded configs.");
     }
@@ -114,9 +115,11 @@ public class FireQQ {
 
     public void reload() {
         loadConfig();
+        BotMain.INSTANCE.reload();
     }
 
     public void stop() {
+        BotMain.INSTANCE.stopMain();
         saveConfig();
     }
 }
